@@ -1,25 +1,39 @@
-const { expect, browser, $ } = require('@wdio/globals');
+const { expect } = require('@wdio/globals');
+
+const DoctorsPage = require('../../page/doctorsPage');
 
 describe('Task Epam', () => {
-  it('open Url', async () => {
+  before(async () => {
     await browser.url(
       `https://ej2.syncfusion.com/showcase/angular/appointmentplanner/#/doctors`
     );
   });
 
-  it('Add new doctors use css selector xpath', async () => {
-    await $('div.doctors').click();
-    await $("//button[text()='Add New Doctor']").click();
-    await $("input[name='Name']").setValue('Jon doe');
-    await $("//button[text()='Save']").click();
-    const emailError = await $('label#Email-info');
-    expect(await emailError.getText()).toEqual('Enter valid email');
+  it('Page Obj', async () => {
+    await DoctorsPage.open();
   });
 
-  it('wait for Displayed', async () => {
-    const doctorsButton = await $("//button[text()='Add New Doctor']");
+  it('Base Url', async () => {
+    await browser.baseUrl;
+  });
 
-    await doctorsButton.waitForDisplayed();
+  it('Changes in calendar name', async () => {
+    await $('div.sidebar-item.calendar').click();
+    await $("div[data-id='Appointment_1002']").click();
+    await $("//button[text()='Edit']").click();
+
+    const input = await $('input#PatientName');
+
+    await input.clearValue();
+    await input.setValue('Laura');
+    await $("//li[text()='Laura']").click();
+    await browser.pause(3000);
+    const saveButton = await $(
+      '.e-schedule-dialog.e-control.e-btn.e-lib.e-primary.e-event-save.e-flat'
+    );
+    await saveButton.click();
+
+    await browser.pause(3000);
   });
 
   it('exucute red solid', async () => {
@@ -34,17 +48,18 @@ describe('Task Epam', () => {
   it('action mouse move', async () => {
     const row = await $('div.patients');
     await row.moveTo();
+
     await browser.pause(5000);
   });
 
-  it('execute', async () => {
+  it('execute title', async () => {
     const pageTitle = await browser.execute(() => {
       return document.title;
     });
     expect(pageTitle).toContain('Appointment Planner');
   });
 
-  it('perform browser actions', async () => {
+  it('browser actions', async () => {
     await browser.performActions([
       {
         type: 'pointer',
@@ -60,35 +75,27 @@ describe('Task Epam', () => {
 
     await browser.pause(3000);
   });
+
+  it('edit Mobile Number for Dr. Nembo Lukeni', async () => {
+    await browser.url(
+      `https://ej2.syncfusion.com/showcase/angular/appointmentplanner/#/doctors`
+    );
+    await $('div.doctors').click();
+
+    const specialistElement = await $('#Specialist_1');
+    await specialistElement.click();
+
+    await browser.pause(3000);
+
+    await $("//button[text()='Edit']").click();
+    await browser.pause(3000);
+
+    const mobileNumberInput = await $('input#DoctorMobile');
+    await mobileNumberInput.clearValue();
+    await browser.pause(3000);
+    await mobileNumberInput.setValue('(044) 555-5555');
+
+    const saveButton = await $("//button[text()='Save']");
+    await saveButton.click();
+  });
 });
-
-// it('edit Mobile Number for Dr. Nembo Lukeni', async () => {
-
-//   await browser.url(
-//     `https://ej2.syncfusion.com/showcase/angular/appointmentplanner/#/dashboard`
-//   );
-//   await $('div.doctors').click();
-
-//   await browser.waitUntil(
-//     async () => {
-//       return await $('div.doctors').isDisplayed();
-//     },
-//     { timeout: 9000, timeoutMsg: 'Doctors section is not visible after 5s' }
-//   );
-//   await browser.pause(3000);
-
-//   const drNemboLukeniElement = await $('div.name*=Dr. Nembo Lukeni');
-//   await browser.pause(3000);
-
-//   await $("//button[text()='Edit']").click();
-
-//   const mobileNumberInput = await $('input#DoctorMobile');
-
-//   await mobileNumberInput.clearValue();
-
-//   await mobileNumberInput.setValue('(044) 555-5555');
-
-//   const saveButton = await $("//button[text()='Save']");
-//   await saveButton.click();
-
-// });
