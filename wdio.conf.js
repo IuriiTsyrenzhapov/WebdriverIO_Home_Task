@@ -1,7 +1,7 @@
 exports.config = {
   //
 
-  baseUrl: 'https://ej2.syncfusion.com/showcase/angular/appointmentplanner/#',
+  baseUrl: 'https://www.syncfusion.com/',
   // ====================
   // Runner Configuration
   // ====================
@@ -44,7 +44,7 @@ exports.config = {
   // from the same test should run tests.
   //
   maxInstances: 2,
-  specFileRetries: 2,
+  // specFileRetries: 2,
   //
   // If you have trouble getting all important capabilities together, check out the
   // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -53,21 +53,21 @@ exports.config = {
   capabilities: [
     {
       browserName: 'chrome',
-      'goog:chromeOptions': {
-        args: ['--headless'],
-      },
+      // 'goog:chromeOptions': {
+      //   args: ['--headless'],
+      // },
     },
 
-    {
-      browserName: 'firefox',
-      'moz:firefoxOptions': {
-        args: ['-headless'],
-      },
-    },
+    // {
+    //   browserName: 'firefox',
+    //   // 'moz:firefoxOptions': {
+    //   //   args: ['-headless'],
+    //   // },
+    // },
 
-    {
-      browserName: 'safari',
-    },
+    // {
+    //   browserName: 'safari',
+    // },
   ],
 
   //
